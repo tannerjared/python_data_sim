@@ -1,0 +1,91 @@
+import numpy as np
+import pandas as pd
+
+# Set random seed for reproducibility
+np.random.seed(10)  
+
+# Generate 300 cases 
+num_cases = 300
+
+# Generate ages (approximately normal distribution, mean 58)
+ages = np.random.normal(loc=58, scale=10, size=num_cases)
+ages = np.clip(ages, 45, 85).astype(int) 
+
+def generate_var1_data(data, target_mean=56, rho=0.8):
+    # Ensure the data is centered around its mean
+    standardized_data = (data - np.mean(data)) / np.std(data)
+    
+    # Generate random noise
+    noise = np.random.normal(0, 1, len(data))
+    
+    # Generate DBN_BA values that are correlated with 'data' using the specified correlation coefficient 'rho'
+    correlated_data = rho * standardized_data + np.sqrt(1 - rho**2) * noise
+    
+    # Rescale correlated_data to have the specific mean and variance
+    correlated_data_rescaled = correlated_data * np.std(data) + target_mean
+    
+    # Ensure DBN_BA values fall within the desired range
+    return np.clip(correlated_data_rescaled, 30, 90).astype(int)
+
+def generate_var2_data(data, target_mean=57, rho=0.85):
+    # Ensure the data is centered around its mean
+    standardized_data = (data - np.mean(data)) / np.std(data)
+    
+    # Generate random noise
+    noise = np.random.normal(0, 1, len(data))
+    
+    # Generate DBN_BA values that are correlated with 'data' using the specified correlation coefficient 'rho'
+    correlated_data = rho * standardized_data + np.sqrt(1 - rho**2) * noise
+    
+    # Rescale correlated_data to have the specific mean and variance
+    correlated_data_rescaled = correlated_data * np.std(data) + target_mean
+    
+    # Ensure DBN_BA values fall within the desired range
+    return np.clip(correlated_data_rescaled, 30, 90).astype(int)
+
+def generate_var3_data(data, target_mean=59, rho=0.65):
+    # Ensure the data is centered around its mean
+    standardized_data = (data - np.mean(data)) / np.std(data)
+    
+    # Generate random noise
+    noise = np.random.normal(0, 1, len(data))
+    
+    # Generate DBN_BA values that are correlated with 'data' using the specified correlation coefficient 'rho'
+    correlated_data = rho * standardized_data + np.sqrt(1 - rho**2) * noise
+    
+    # Rescale correlated_data to have the specific mean and variance
+    correlated_data_rescaled = correlated_data * np.std(data) + target_mean
+    
+    # Ensure DBN_BA values fall within the desired range
+    return np.clip(correlated_data_rescaled, 30, 90).astype(int)
+
+def generate_var4_data(data, target_mean=59, rho=0.70):
+    # Ensure the data is centered around its mean
+    standardized_data = (data - np.mean(data)) / np.std(data)
+    
+    # Generate random noise
+    noise = np.random.normal(0, 1, len(data))
+    
+    # Generate DBN_BA values that are correlated with 'data' using the specified correlation coefficient 'rho'
+    correlated_data = rho * standardized_data + np.sqrt(1 - rho**2) * noise
+    
+    # Rescale correlated_data to have the specific mean and variance
+    correlated_data_rescaled = correlated_data * np.std(data) + target_mean
+    
+    # Ensure DBN_BA values fall within the desired range
+    return np.clip(correlated_data_rescaled, 30, 90).astype(int)
+
+# Generate variable values that are correlated with ages
+Var1 = generate_var1_data(ages)
+
+Var2 = generate_var2_data(ages)
+
+Var3 = generate_var3_data(ages)
+
+Var4 = generate_var4_data(ages)
+
+# Create the DataFrame
+df = pd.DataFrame({'age': ages, 'Var1': Var1, 'Var2': Var2, 'Var3': Var3, 'Var4': Var4})
+
+# Save as a CSV file
+df.to_csv('simulated_correlated_data.csv', index=False)
